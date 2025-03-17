@@ -34,10 +34,6 @@ jobs:
         run: composer audit --format=json --no-interaction
         continue-on-error: true # Permettre au CI de continuer même si des vulnérabilités sont détectées
 
-  archive:
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Set Environment variables
         run: 'export APP_ENV=prod && export DATABASE_URL=${{ secrets.DATABASE_URL }}'
 
