@@ -32,7 +32,7 @@ jobs:
 
       - name: Audit de sécurité
         run: composer audit --format=json --no-interaction
-        continue-on-error: true # Permettre au CI de continuer même si des vulnérabilités sont détectées
+        continue-on-error: true
 
   archive:
     needs: ci
@@ -46,14 +46,20 @@ jobs:
         with:
           php-version: '8.2'
 
-      - name: Set Environment variables
+      - name: Set app env
         run: echo "APP_ENV=prod" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: composer install --no-dev --optimize-autoloader --ignore-platform-reqs
+        env:
+          APP_ENV: prod
 
-      - name: Dump env
-        run: composer dump-env prod
+      - name: Dump environment variables for production
+        run: |
+          composer dump-env prod
+        env:
+          APP_ENV: prod
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Optimize assets
         run: php bin/console asset-map:compile
@@ -63,11 +69,11 @@ jobs:
 
       - name: Create archive
         run: |
-          cd ${{ github.workspace }}
-          tar --warning=no-file-changed -czvf symfony-artifact-r1.tar.gz \
+          tar -czvf ../symfony-artifact-r1.tar.gz \
           --exclude=".git" \
           --exclude="node_modules" \
           --exclude="var/cache" \
+          --exclude="var/sessions" \
           --exclude="var/log" \
           --exclude="tests" \
           --exclude=".env" \
@@ -76,10 +82,11 @@ jobs:
           --exclude="README.md" \
           --exclude="*.log" \
           --exclude="*.gitignore" \
+          --exclude=".idea" \
           .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: symfony-artifact
-          path: symfony-artifact-r1.tar.gz
+          path: ../symfony-artifact-r1.tar.gz
