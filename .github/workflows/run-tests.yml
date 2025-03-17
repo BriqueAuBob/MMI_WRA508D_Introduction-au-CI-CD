@@ -47,9 +47,7 @@ jobs:
           php-version: '8.2'
 
       - name: Set Environment variables
-        env:
-            APP_ENV: prod
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: echo "APP_ENV=prod" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: composer install --no-dev --optimize-autoloader --ignore-platform-reqs
