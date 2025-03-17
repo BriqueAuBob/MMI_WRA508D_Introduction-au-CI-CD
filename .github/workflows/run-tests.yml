@@ -69,7 +69,7 @@ jobs:
 
       - name: Create archive
         run: |
-          tar -czvf symfony-artifact-r1.tar.gz \
+          tar -czvf ../symfony-artifact-r1.tar.gz \
           --exclude=".git" \
           --exclude="node_modules" \
           --exclude="var/cache" \
@@ -83,7 +83,6 @@ jobs:
           --exclude="*.log" \
           --exclude="*.gitignore" \
           --exclude=".idea" \
-          --exclude="symfony-artifact-r1.tar.gz" \
           .
 
       - name: Upload artifact
