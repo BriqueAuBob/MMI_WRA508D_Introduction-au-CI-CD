@@ -33,3 +33,22 @@ jobs:
       - name: Audit de sécurité
         run: composer audit --format=json --no-interaction
         continue-on-error: true # Permettre au CI de continuer même si des vulnérabilités sont détectées
+
+  archive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set Environment variables
+        run: 'export APP_ENV=prod && export DATABASE_URL=${{ secrets.DATABASE_URL }}'
+
+      - name: Dump env
+        run: composer dump-env prod
+
+      - name: Install dependencies
+        run: composer install --no-dev --optimize-autoloader --ignore-platform-reqs
+
+      - name: Optimize assets
+        run: php bin/console asset-map:compile
+
+      - name: Create archive
+        run: tar -czvf symfony-artifact-r1.tar.gz --exclude=.git --exclude=node_modules --exclude=var/cache --exclude=var/log --exclude=tests --exclude=.env --exclude=docker --exclude=docker-compose.yml --exclude=README.md --exclude=*.log --exclude=*.gitignore .
