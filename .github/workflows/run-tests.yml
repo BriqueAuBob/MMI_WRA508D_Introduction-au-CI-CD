@@ -34,6 +34,18 @@ jobs:
         run: composer audit --format=json --no-interaction
         continue-on-error: true # Permettre au CI de continuer même si des vulnérabilités sont détectées
 
+  archive:
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
       - name: Set Environment variables
         run: 'export APP_ENV=prod && export DATABASE_URL=${{ secrets.DATABASE_URL }}'
 
