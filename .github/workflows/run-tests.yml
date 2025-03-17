@@ -47,7 +47,9 @@ jobs:
           php-version: '8.2'
 
       - name: Set Environment variables
-        run: 'export APP_ENV=prod && export DATABASE_URL=${{ secrets.DATABASE_URL }}'
+        env:
+            APP_ENV: prod
+            DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Install dependencies
         run: composer install --no-dev --optimize-autoloader --ignore-platform-reqs
