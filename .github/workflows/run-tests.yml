@@ -49,11 +49,11 @@ jobs:
       - name: Set Environment variables
         run: 'export APP_ENV=prod && export DATABASE_URL=${{ secrets.DATABASE_URL }}'
 
-      - name: Dump env
-        run: composer dump-env prod
-
       - name: Install dependencies
         run: composer install --no-dev --optimize-autoloader --ignore-platform-reqs
+
+      - name: Dump env
+        run: composer dump-env prod
 
       - name: Optimize assets
         run: php bin/console asset-map:compile
