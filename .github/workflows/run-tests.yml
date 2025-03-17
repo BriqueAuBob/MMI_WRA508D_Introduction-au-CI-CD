@@ -47,4 +47,16 @@ jobs:
         run: php bin/console asset-map:compile
 
       - name: Create archive
-        run: tar -czvf symfony-artifact-r1.tar.gz --exclude=.git --exclude=node_modules --exclude=var/cache --exclude=var/log --exclude=tests --exclude=.env --exclude=docker --exclude=docker-compose.yml --exclude=README.md --exclude=*.log --exclude=*.gitignore .
+        run: tar -czvf symfony-artifact-r1.tar.gz \
+          --exclude=.git \
+          --exclude=node_modules \
+          --exclude=var/cache \
+          --exclude=var/log \
+          --exclude=tests \
+          --exclude=.env \
+          --exclude=docker \
+          --exclude=docker-compose.yml \
+          --exclude=README.md \
+          --exclude=*.log \
+          --exclude=*.gitignore \
+          .
