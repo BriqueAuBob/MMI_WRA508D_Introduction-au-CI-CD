@@ -33,4 +33,4 @@
 phpstan.neon
 ###< phpstan/phpstan ###
 
-.secrets
+./.secrets

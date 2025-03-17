@@ -58,13 +58,13 @@ jobs:
       - name: Optimize assets
         run: php bin/console asset-map:compile
 
-      - name: Debug listing
-        run: ls -la
+      - name: Clear Symfony cache
+        run: php bin/console cache:clear --no-warmup
 
       - name: Create archive
         run: |
           cd ${{ github.workspace }}
-          tar -czvf symfony-artifact-r1.tar.gz \
+          tar --warning=no-file-changed -czvf symfony-artifact-r1.tar.gz \
           --exclude=".git" \
           --exclude="node_modules" \
           --exclude="var/cache" \
