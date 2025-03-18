@@ -67,9 +67,12 @@ jobs:
       - name: Clear Symfony cache
         run: php bin/console cache:clear --no-warmup
 
+      - name: Create artefacts directory
+        run: mkdir artefacts
+
       - name: Create archive
         run: |
-          tar -czvf ../symfony-artifact-r1.tar.gz \
+          tar -czvf artefacts/symfony-artifact-r1.tar.gz \
           --exclude=".git" \
           --exclude="node_modules" \
           --exclude="var/cache" \
@@ -83,10 +86,11 @@ jobs:
           --exclude="*.log" \
           --exclude="*.gitignore" \
           --exclude=".idea" \
+          --exclude="artefacts" \
           .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: symfony-artifact
-          path: ../symfony-artifact-r1.tar.gz
+          path: artefacts/symfony-artifact-r1.tar.gz
